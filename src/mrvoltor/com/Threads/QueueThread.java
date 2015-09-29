@@ -1,8 +1,9 @@
 package mrvoltor.com.Threads;
 
-import mrvoltor.com.Listeners.PacketListener;
+import mrvoltor.com.Listeners.IPacketListener;
 import mrvoltor.com.Model.Packet;
 import mrvoltor.com.Model.PacketQueue;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,20 +12,21 @@ import java.util.Iterator;
  * Created by Олег Скидан on 03.09.2015.
  */
 public class QueueThread extends Thread {
+    final static Logger logger = Logger.getRootLogger();
     PacketQueue packetQueue;
 
     public QueueThread(PacketQueue queue) {
         packetQueue = queue;
     }
     HashMap packetListeners = new HashMap();
-    public boolean addPacketListener(PacketListener listener, String element){
+    public boolean addPacketListener(IPacketListener listener, String element){
         if (listener == null || element == null){
             return false;
         }
         packetListeners.put(listener,element);
         return true;
     }
-    public boolean removePacketListener(PacketListener listener){
+    public boolean removePacketListener(IPacketListener listener){
         packetListeners.remove(listener);
         return true;
     }
@@ -34,7 +36,7 @@ public class QueueThread extends Thread {
                 synchronized(packetListeners){
                     Iterator iterator = packetListeners.keySet().iterator();
                     while (iterator.hasNext()){
-                        PacketListener listener = (PacketListener)iterator.next();
+                        IPacketListener listener = (IPacketListener)iterator.next();
                         String element = (String)packetListeners.get(listener);
                         //An empty string "" indicates match anything
                         if (element.equals(packet.getElement())
@@ -44,7 +46,9 @@ public class QueueThread extends Thread {
                     }
                 }
             //Continue to process packets no matter what happens
-            } catch (Exception ex){ }
+            } catch (Exception ex){
+                logger.error(ex.getMessage());
+            }
         }
     }
 }

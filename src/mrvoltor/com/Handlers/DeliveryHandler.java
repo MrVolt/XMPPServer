@@ -1,16 +1,18 @@
 package mrvoltor.com.Handlers;
 
-import mrvoltor.com.Listeners.PacketListener;
+import mrvoltor.com.Listeners.IPacketListener;
 import mrvoltor.com.Model.Packet;
 import mrvoltor.com.Model.Session;
 import mrvoltor.com.Model.SessionIndex;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
 /**
  * Created by Олег Скидан on 03.09.2015.
  */
-public class DeliveryHandler implements PacketListener {
+public class DeliveryHandler implements IPacketListener {
+    final static Logger logger = Logger.getRootLogger();
     SessionIndex sessionIndex;
 
     public DeliveryHandler(SessionIndex index) throws IOException {
@@ -32,7 +34,7 @@ public class DeliveryHandler implements PacketListener {
                 return;
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
         }
     }
 }

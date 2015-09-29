@@ -30,7 +30,6 @@ public class Server {
 
     static public void main(String [] args) throws IOException {
         BasicConfigurator.configure();
-        logger.debug("Start server on port " + JABBER_PORT + ". Server name is " + SERVER_NAME);
 
         //The shared PacketQueue
         PacketQueue packetQueue = new PacketQueue();
@@ -57,7 +56,7 @@ public class Server {
             serverSocket = new ServerSocket(JABBER_PORT);
         } catch (IOException ex){
             //If port not available, server shuts down
-            ex.printStackTrace();
+            logger.error(ex.getMessage());
             return;
         }
         while (true){
@@ -71,7 +70,7 @@ public class Server {
                         session);
                 processor.start();
             } catch (IOException ie){
-                ie.printStackTrace();
+                logger.error(ie.getMessage());
             }
         }
     }

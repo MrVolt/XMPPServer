@@ -37,6 +37,7 @@ public class JabberInputHandler extends DefaultHandler {
 
     Packet packet;
     int depth = 0;
+
     public void startElement(String namespaceURI,
                              String localName,
                              String qName,
@@ -60,6 +61,7 @@ public class JabberInputHandler extends DefaultHandler {
                 packet = child;
         }
     }
+
     public void characters(char[] ch,
                            int start,
                            int length)
@@ -68,6 +70,7 @@ public class JabberInputHandler extends DefaultHandler {
             packet.getChildren().add(new String(ch,start,length));
         }
     }
+
     public void endElement(java.lang.String uri,
                            java.lang.String localName,
                            java.lang.String qName)

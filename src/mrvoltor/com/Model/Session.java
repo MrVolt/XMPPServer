@@ -1,6 +1,6 @@
 package mrvoltor.com.Model;
 
-import mrvoltor.com.Listeners.StatusListener;
+import mrvoltor.com.Listeners.IStatusListener;
 
 import java.io.*;
 import java.net.Socket;
@@ -68,10 +68,10 @@ public class Session {
     }
 
     LinkedList statusListeners = new LinkedList();
-    public boolean addStatusListener(StatusListener listener) {
+    public boolean addStatusListener(IStatusListener listener) {
         return statusListeners.add(listener);
     }
-    public boolean removeStatusListener(StatusListener listener) {
+    public boolean removeStatusListener(IStatusListener listener) {
         return statusListeners.remove(listener);
     }
 
@@ -83,7 +83,7 @@ public class Session {
         status = newStatus;
         ListIterator iterator = statusListeners.listIterator();
         while (iterator.hasNext()) {
-            StatusListener listener = (StatusListener) iterator.next();
+            IStatusListener listener = (IStatusListener) iterator.next();
             listener.notify(status);
         }
     }
